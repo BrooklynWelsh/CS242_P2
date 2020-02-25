@@ -1,8 +1,10 @@
 package anagrams;
 
+import java.util.*;
+
 public class AlphaCount {
 	
-	ULHashMap<Character, Integer> charactersToCounts;
+	ULHashMap<Character, Integer> charCounts;
 	String inputString;
 	int size;
 	
@@ -14,7 +16,7 @@ public class AlphaCount {
 	
 	public AlphaCount(String input) {
 		inputString = input.replaceAll("[0-9] ", "").toLowerCase();	// This program only keeps characters, not numbers (UPDATE to also remove non letter chars)
-		charactersToCounts = new ULHashMap<Character, Integer>(inputString.length());
+		charCounts = new ULHashMap<Character, Integer>(inputString.length());
 	}
 	
 	public AlphaCount add(AlphaCount other) {
@@ -28,7 +30,7 @@ public class AlphaCount {
 	}
 	
 	public int getLetter(char letter) {
-		return 0;
+		return charCounts.get(letter);
 	}
 	
 	public int hashCode() {
