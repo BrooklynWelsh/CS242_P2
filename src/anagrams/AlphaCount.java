@@ -4,7 +4,7 @@ import java.util.*;
 
 public class AlphaCount {
 	
-	ULHashMap<Character, Integer> charCounts;
+	HashMap<Character, Integer> charCounts;
 	String inputString;
 	int size;
 	
@@ -16,12 +16,12 @@ public class AlphaCount {
 	
 	public AlphaCount(String input) {
 		inputString = input.replaceAll("[0-9] ", "").toLowerCase();	// This program only keeps characters, not numbers (UPDATE to also remove non letter chars)
-		charCounts = new ULHashMap<Character, Integer>(inputString.length());
+		charCounts = new HashMap<Character, Integer>(inputString.length());
 	}
 	
 	public AlphaCount add(AlphaCount other) {
-		return null;
-		
+		String newString = other.toString() + this.toString();
+		return new AlphaCount(newString);
 	}
 	
 	public boolean equals(Object otherObject) {
@@ -34,11 +34,15 @@ public class AlphaCount {
 	}
 	
 	public int hashCode() {
-		return 0;
+		int hashcode = 0;
+		for(Map.Entry<Character, Integer>  entry: charCounts.entrySet()) {
+			hashcode += entry.hashCode();
+		}
+		return hashcode;
 	}
 	
 	public boolean isEmpty() {
-		return false;
+		return size == 0;
 	}
 	
 	public boolean isSubset(AlphaCount other) {
@@ -46,14 +50,18 @@ public class AlphaCount {
 	}
 	
 	public int size() {
-		return 0;
+		return size;
 	}
 	
 	public AlphaCount subtract(AlphaCount other) {
 		return null;
 	}
 	public String toString() {
-		return null;
+		String returnString = "";
+		for(Map.Entry<Character, Integer>  entry: charCounts.entrySet()) {
+			returnString = returnString + entry.toString();
+		}
+		return returnString;
 	}
 }
 
