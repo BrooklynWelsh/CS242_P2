@@ -4,9 +4,9 @@ import java.util.*;
 
 public class AlphaCount {
 	
-	HashMap<Character, Integer> charCounts;
-	String inputString;
-	int size;
+	private HashMap<Character, Integer> charCounts;
+	private String inputString;
+	private int size;
 	
 	
 	AlphaCount(){
@@ -32,7 +32,7 @@ public class AlphaCount {
 	}
 	
 	public AlphaCount add(AlphaCount other) {
-		String newString = other.toString() + this.toString();
+		String newString = other.inputString + this.inputString;
 		return new AlphaCount(newString);
 	}
 	
@@ -49,7 +49,11 @@ public class AlphaCount {
 	}
 	
 	public int getLetter(char letter) {
-		return charCounts.get(letter);
+		Integer charCount = charCounts.get(letter);
+		if(charCount == null) {
+			charCount = 0;
+		}
+		return charCount;
 	}
 	
 	public int hashCode() {
@@ -65,20 +69,43 @@ public class AlphaCount {
 	}
 	
 	public boolean isSubset(AlphaCount other) {
-		return false;
-	}
+		boolean isSubset = true;
+		for(Map.Entry<Character, Integer> entry : charCounts.entrySet()) {
+			if(other.getLetter(entry.getKey()) > entry.getValue()) {
+				isSubset = false;
+			}
+		}
+		
+		return isSubset;
+	} 
 	
 	public int size() {
 		return size;
 	}
 	
 	public AlphaCount subtract(AlphaCount other) {
-		return null;
+		String newString = "";
+		for(Map.Entry<Character, Integer> entry : this.charCounts.entrySet()) {
+			Character character = entry.getKey();
+			int oldCharCount = entry.getValue();
+			int otherCharCount = other.getLetter(character);
+			int newCharCount = oldCharCount - otherCharCount;
+			
+			if(newCharCount > 0) {
+				for(int i = 0; i < newCharCount; i++) {
+					newString = newString + character.toString();
+				}
+			}
+		}
+
+		return new AlphaCount(newString);
 	}
+	
+	
 	public String toString() {
 		String returnString = "";
 		for(Map.Entry<Character, Integer>  entry: charCounts.entrySet()) {
-			returnString = returnString + entry.toString();
+			returnString = returnString + entry.toString() + " ";
 		}
 		return returnString;
 	}
