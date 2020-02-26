@@ -9,14 +9,26 @@ public class AlphaCount {
 	int size;
 	
 	
-	public AlphaCount(){
+	AlphaCount(){
 		inputString = null;
 		size = 0;
 	}
 	
-	public AlphaCount(String input) {
-		inputString = input.replaceAll("[0-9] ", "").toLowerCase();	// This program only keeps characters, not numbers (UPDATE to also remove non letter chars)
-		charCounts = new HashMap<Character, Integer>(inputString.length());
+	AlphaCount(String input){
+		inputString = input;
+		size = 0;
+		
+		for(Character c : inputString.toCharArray()) {
+			if(Character.isLetter(c)) {
+				Integer count = charCounts.get(c);
+				if(count == null) {
+					charCounts.put(c, 0);
+				}else {
+					charCounts.put(c, count++);
+				}
+			}
+			size++;
+		}
 	}
 	
 	public AlphaCount add(AlphaCount other) {
@@ -25,8 +37,15 @@ public class AlphaCount {
 	}
 	
 	public boolean equals(Object otherObject) {
-		return false;
+		boolean isEqual = false;
+		if(this == otherObject) isEqual = true;
 		
+		if(otherObject != null && this.getClass() == otherObject.getClass()) {
+			AlphaCount newAlpha = (AlphaCount) otherObject;
+			isEqual = this.charCounts.equals(newAlpha.charCounts);
+		}
+		
+		return isEqual;
 	}
 	
 	public int getLetter(char letter) {
