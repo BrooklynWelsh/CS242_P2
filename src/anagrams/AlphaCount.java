@@ -73,7 +73,7 @@ public class AlphaCount {
 	public boolean isSubset(AlphaCount other) {
 		boolean isSubset = true;
 		for(Map.Entry<Character, Integer> entry : charCounts.entrySet()) {
-			if(other.getLetter(entry.getKey()) > entry.getValue()) {
+			if(entry.getValue() > this.getLetter(entry.getKey())) {
 				isSubset = false;
 			}
 		}
