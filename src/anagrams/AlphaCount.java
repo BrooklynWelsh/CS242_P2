@@ -12,19 +12,21 @@ public class AlphaCount {
 	AlphaCount(){
 		inputString = null;
 		size = 0;
+		charCounts = new HashMap<Character, Integer>();
 	}
 	
 	AlphaCount(String input){
 		inputString = input;
 		size = 0;
-		
+		charCounts = new HashMap<Character, Integer>();
 		for(Character c : inputString.toCharArray()) {
 			if(Character.isLetter(c)) {
-				Integer count = charCounts.get(c);
-				if(count == null) {
-					charCounts.put(c, 0);
-				}else {
-					charCounts.put(c, count++);
+				if(charCounts.containsKey(c)) {
+					Integer count = charCounts.get(c);
+					charCounts.put(c, ++count);
+				}
+				else {
+					charCounts.put(c, 1);	// Initial value is 1
 				}
 			}
 			size++;
