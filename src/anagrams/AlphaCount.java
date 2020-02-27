@@ -15,7 +15,7 @@ public class AlphaCount {
 		charCounts = new HashMap<Character, Integer>();
 	}
 	
-	AlphaCount(String input){
+	public AlphaCount(String input){
 		inputString = input;
 		size = 0;
 		charCounts = new HashMap<Character, Integer>();
@@ -73,7 +73,7 @@ public class AlphaCount {
 	public boolean isSubset(AlphaCount other) {
 		boolean isSubset = true;
 		for(Map.Entry<Character, Integer> entry : charCounts.entrySet()) {
-			if(entry.getValue() > this.getLetter(entry.getKey())) {
+			if(entry.getValue() < other.getLetter(entry.getKey())) {
 				isSubset = false;
 			}
 		}

@@ -3,26 +3,44 @@ import java.util.*;
 
 public class Anagram {
 	
-	int size;
-
+	private int size;
+	private ArrayList<String> words;
+	
 	Anagram(){
-		
+		words = null;
 	}
 	
-	Anagram(List<String> words){
-		
+	Anagram(ArrayList<String> words){
+		this.words = words;
 	}
 	
 	public Anagram addAnagram(Anagram other) {
-		return null;
+		@SuppressWarnings("unchecked")
+		ArrayList<String> sum = (ArrayList<String>) words.clone();
+		
+		sum.addAll(other.words);
+		Anagram anagramSum = new Anagram(sum);
+		return anagramSum;
 	}
 	
 	public Anagram addWord(String word) {
-		return null;
+		@SuppressWarnings("unchecked")
+		ArrayList<String> newList = (ArrayList<String>) words.clone();
+		newList.add(word);
+		Anagram newAnagram = new Anagram(newList);
+		return newAnagram;
 	}
 	
 	public boolean equals (Object otherObject) {
-		return false;
+		boolean isEqual = false;
+		if(this == otherObject) isEqual = true;
+		
+		if(otherObject != null && this.getClass() == otherObject.getClass()) {
+			Anagram newAnagram = (Anagram) otherObject;
+			isEqual = this.words.equals(newAnagram.words);
+		}
+		
+		return isEqual;
 	}
 	
 	public int size() {

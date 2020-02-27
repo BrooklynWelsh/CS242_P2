@@ -2,9 +2,9 @@ package anagrams;
 
 public class DuplicateKeyException {
 
-	DuplicateKeyException(){}
+	public DuplicateKeyException(){}
 	
-	DuplicateKeyException(String message){
+	public DuplicateKeyException(String message){
 		System.out.println(message);
 	}
 }
