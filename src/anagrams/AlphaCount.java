@@ -87,23 +87,15 @@ public class AlphaCount {
 	
 	public AlphaCount subtract(AlphaCount other) {
 		String newString = "";
-		for(Map.Entry<Character, Integer> entry : other.charCounts.entrySet()) {
+		for(Map.Entry<Character, Integer> entry : this.charCounts.entrySet()) {
 			Character character = entry.getKey();
-			int otherCharCount = entry.getValue();
-			int oldCharCount = this.getLetter(character);
+			int oldCharCount = entry.getValue();
+			int otherCharCount = other.getLetter(character);
 			int newCharCount = oldCharCount - otherCharCount;
 			
 			if(newCharCount > 0) {
 				for(int i = 0; i < newCharCount; i++) {
 					newString = newString + character;
-				}
-			}
-		}
-		
-		for(Map.Entry<Character, Integer> entry : this.charCounts.entrySet()) {
-			if(other.getLetter(entry.getKey()) == 0) {
-				for(int i = 0; i < entry.getValue(); i++) {
-					newString = newString  + entry.getKey();
 				}
 			}
 		}
