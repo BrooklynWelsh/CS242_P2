@@ -10,8 +10,8 @@ public class Anagram {
 		words = null;
 	}
 	
-	Anagram(ArrayList<String> words){
-		this.words = words;
+	Anagram(List<String> words){
+		this.words = new ArrayList<String>(words);
 	}
 	
 	public Anagram addAnagram(Anagram other) {
