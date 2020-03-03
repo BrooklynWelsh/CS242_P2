@@ -48,6 +48,6 @@ public class Anagram {
 	}
 	
 	public String toString() {
-		return null;
+		return words.toString();
 	}
 }
