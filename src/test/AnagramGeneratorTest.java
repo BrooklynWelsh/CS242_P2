@@ -34,6 +34,7 @@ class AnagramGeneratorTest {
 		
 		List<Anagram> anagramList = generator.generateAnagram(input);
 		
+		System.out.println("Anagram list for " + input + " using " + filename);
 		for(Anagram anagram : anagramList) {
 			System.out.println(anagram.toString());
 		}
@@ -52,6 +53,8 @@ class AnagramGeneratorTest {
 		String input2 = "absentee";
 		
 		List<Anagram> anagramList2 = generator2.generateAnagram(input2);
+		
+		System.out.println("Anagram list for " + input2 + " using " + filename2);
 		
 		for(Anagram anagram : anagramList2) {
 			System.out.println(anagram.toString());
