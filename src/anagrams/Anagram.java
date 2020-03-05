@@ -51,6 +51,9 @@ public class Anagram {
 	}
 	
 	public String toString() {
-		return words.toString();
+		String string = words.toString();
+		string = string.replaceAll("[\\[\\],]", " ");
+		string = string.trim();
+		return string;
 	}
 }
