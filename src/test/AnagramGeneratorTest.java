@@ -19,7 +19,7 @@ class AnagramGeneratorTest {
 
 	@Test
 	void test() throws IOException {
-		String filename = "..\\resources\\small.lex";
+		String filename = "resources/small.lex.txt";
 		Scanner scanner = new Scanner(Paths.get(filename));
 		List<String> lexiconList = new ArrayList<String>();
 		
@@ -30,7 +30,7 @@ class AnagramGeneratorTest {
 		scanner.close();
 		AnagramGenerator generator = new AnagramGenerator(lexiconList);
 		
-		String input = "twowestrowwetoverstew";
+		String input = "west";
 		
 		List<Anagram> anagramList = generator.generateAnagram(input);
 		
