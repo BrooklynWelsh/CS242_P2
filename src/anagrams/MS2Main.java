@@ -37,7 +37,9 @@ public class MS2Main {
 		while(inputPhrase != "0") {
 			List<Anagram> anagramList;
 			anagramList = generator.generateAnagram(inputPhrase);
-			System.out.println(anagramList.toString());
+			for(Anagram anagram : anagramList) {
+				System.out.println(anagram.toString());
+			}
 			System.out.println("Please enter A phrase to generate anagrams (0 to exit): ");
 			inputPhrase = inputScanner.next();
 		}
