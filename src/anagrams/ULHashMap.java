@@ -38,8 +38,11 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 		}
 	}
 
-	public ULHashMap<K, V> clone() {
-
+	public ULHashMap<K, V> clone() throws CloneNotSupportedException {
+		ULHashMap<K,V> newHashMap = null;
+		newHashMap = (ULHashMap<K, V>) super.clone();
+		newHashMap.buckets = this.buckets.clone();
+		return newHashMap;
 	}
 
 	public boolean containsKey(K key) {
@@ -118,33 +121,34 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 		return retVal;
 	}
 
-	@Override
 	public Iterator<ULHashMap.Mapping<K, V>> iterator() {
 		return new Iterator<ULHashMap.Mapping<K, V>>() {
 
-			int bucket = 0;
-			int position = 0;
+			private int bucket = 0;
+			private int position = 0;
+			private int index = 0;
 
-			@Override
 			public boolean hasNext() {
 				return index < size;
 			}
 
-			@Override
-			public Mapping<K, V> next() {
-				Mapping<K, V> mapping = null;
-				if (!hasNext())
-					throw new java.util.NoSuchElementException();
-				else {
+			public Mapping<K,V> next(){
+				Mapping<K,V> mapping = null;
+				if(buckets[bucket].size() > position) {
 					mapping = buckets[bucket].get(position);
+					position++;
+					index++;
+				}else if(bucket + 1 < tableSize) {
+					mapping = buckets[bucket].get(0);
+					bucket++;
+					position = 1;
+					index++;
+				}else {
+					throw new java.util.NoSuchElementException();
 				}
-
-				// Mapping<K,V> iter = buckets[0].getFirst(); // Start at very first element of
-				// first bucket
-
+				return mapping;
 			}
-
-			@Override
+			
 			public void remove() {
 				throw new java.lang.UnsupportedOperationException();
 			}
@@ -231,41 +235,6 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 
 		public K key;
 		public V value;
-	}
-
-	public class ULIterator<ULHashMap.Mapping<K, V>> implements Iterable {
-
-		private int bucket = 0;
-		private int position = 0;
-		private int index = 0;
-
-		public boolean hasNext() {
-			return index < size;
-		}
-
-		public Mapping<K,V> next(){
-			Mapping<K,V> mapping = null;
-			if(buckets[bucket].size() > position) {
-				mapping = buckets[bucket].get(position);
-				position++;
-				index++;
-			}else if(bucket + 1 < tableSize) {
-				mapping = buckets[bucket].get(0);
-				bucket++;
-				position = 1;
-				index++;
-			}else {
-				throw new java.util.NoSuchElementException();
-			}
-			return mapping;
-		}
-		
-		public void remove() {
-			throw new java.lang.UnsupportedOperationException();
-		}
-
-		
-
 	}
 
 }
