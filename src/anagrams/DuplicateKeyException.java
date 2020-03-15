@@ -1,6 +1,7 @@
+
 package anagrams;
 
-public class DuplicateKeyException {
+public class DuplicateKeyException extends RuntimeException {
 
 	public DuplicateKeyException(){}
 	
@@ -8,3 +9,4 @@ public class DuplicateKeyException {
 		System.out.println(message);
 	}
 }
+
