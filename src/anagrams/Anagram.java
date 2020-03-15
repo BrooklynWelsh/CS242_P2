@@ -3,26 +3,47 @@ import java.util.*;
 
 public class Anagram {
 	
-	int size;
-
+	private int size = 0;
+	private ArrayList<String> words;
+	
 	Anagram(){
-		
+		words = new ArrayList<String>();
 	}
 	
 	Anagram(List<String> words){
-		
+		this.words = new ArrayList<String>(words);
+		size = words.size();
 	}
 	
 	public Anagram addAnagram(Anagram other) {
-		return null;
+		@SuppressWarnings("unchecked")
+		ArrayList<String> sum = (ArrayList<String>) words.clone();
+		
+		sum.addAll(other.words);
+		size = size + sum.size();
+		Anagram anagramSum = new Anagram(sum);
+		return anagramSum;
 	}
 	
 	public Anagram addWord(String word) {
-		return null;
+		@SuppressWarnings("unchecked")
+		ArrayList<String> newList = (ArrayList<String>) words.clone();		// ERROR: Gives NULL pointer exception
+		newList.add(word);
+		size++;
+		Anagram newAnagram = new Anagram(newList);
+		return newAnagram;
 	}
 	
 	public boolean equals (Object otherObject) {
-		return false;
+		boolean isEqual = false;
+		if(this == otherObject) isEqual = true;
+		
+		if(otherObject != null && this.getClass() == otherObject.getClass()) {
+			Anagram newAnagram = (Anagram) otherObject;
+			isEqual = this.words.equals(newAnagram.words);
+		}
+		
+		return isEqual;
 	}
 	
 	public int size() {
@@ -30,6 +51,9 @@ public class Anagram {
 	}
 	
 	public String toString() {
-		return null;
+		String string = words.toString();
+		string = string.replaceAll("[\\[\\],]", " ");
+		string = string.trim();
+		return string;
 	}
 }

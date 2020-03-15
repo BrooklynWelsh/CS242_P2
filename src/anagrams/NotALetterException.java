@@ -2,9 +2,9 @@ package anagrams;
 
 public class NotALetterException {
 
-	NotALetterException(){}
+	public NotALetterException(){}
 	
-	NotALetterException(String message){
+	public NotALetterException(String message){
 		System.out.println(message);
 	}
 }
