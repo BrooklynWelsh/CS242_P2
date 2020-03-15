@@ -2,9 +2,11 @@ package anagrams;
 
 import java.util.*;
 
+import anagrams.ULHashMap.Mapping;
+
 public class AlphaCount {
 	
-	private HashMap<Character, Integer> charCounts;
+	private ULHashMap<Character, Integer> charCounts;
 	private String inputString;
 	private int size;
 	
@@ -12,17 +14,17 @@ public class AlphaCount {
 	AlphaCount(){
 		inputString = null;
 		size = 0;
-		charCounts = new HashMap<Character, Integer>();
+		charCounts = new ULHashMap<Character, Integer>();
 	}
 	
 	public AlphaCount(String input){
 		inputString = input;
 		size = 0;
-		charCounts = new HashMap<Character, Integer>();
+		charCounts = new ULHashMap<Character, Integer>();
 		for(Character c : inputString.toCharArray()) {
 			if(Character.isLetter(c)) {
 				if(charCounts.containsKey(c)) {
-					Integer count = charCounts.get(c);
+					Integer count = charCounts.lookup(c);
 					charCounts.put(c, ++count);
 				}
 				else {
@@ -51,7 +53,7 @@ public class AlphaCount {
 	}
 	
 	public int getLetter(char letter) {
-		Integer charCount = charCounts.get(letter);
+		Integer charCount = charCounts.lookup(letter);
 		if(charCount == null) {
 			charCount = 0;
 		}
@@ -60,7 +62,7 @@ public class AlphaCount {
 	
 	public int hashCode() {
 		int hashcode = 0;
-		for(Map.Entry<Character, Integer>  entry: charCounts.entrySet()) {
+		for(Mapping<Character, Integer>  entry: charCounts) {
 			hashcode += entry.hashCode();
 		}
 		return hashcode;
@@ -72,7 +74,7 @@ public class AlphaCount {
 	
 	public boolean isSubset(AlphaCount other) {
 		boolean isSubset = true;
-		for(Map.Entry<Character, Integer> entry : other.charCounts.entrySet()) {
+		for(Mapping<Character, Integer> entry : other.charCounts) {
 			if(entry.getValue() > this.getLetter(entry.getKey())) {
 				isSubset = false;
 			}
@@ -87,7 +89,7 @@ public class AlphaCount {
 	
 	public AlphaCount subtract(AlphaCount other) {
 		String newString = "";
-		for(Map.Entry<Character, Integer> entry : this.charCounts.entrySet()) {
+		for(Mapping<Character, Integer> entry : this.charCounts) {
 			Character character = entry.getKey();
 			int oldCharCount = entry.getValue();
 			int otherCharCount = other.getLetter(character);
@@ -106,7 +108,7 @@ public class AlphaCount {
 	
 	public String toString() {
 		String returnString = "";
-		for(Map.Entry<Character, Integer>  entry: charCounts.entrySet()) {
+		for(Mapping<Character, Integer>  entry: charCounts) {
 			returnString = returnString + entry.toString() + " ";
 		}
 		return returnString;

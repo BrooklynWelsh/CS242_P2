@@ -13,6 +13,7 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 		// Table size must be prime
 		tableSize = 7; // Just set it to a small prime
 		size = 0;
+		buckets = (LinkedList<Mapping<K, V>>[]) new LinkedList[tableSize];
 	}
 
 	public ULHashMap(int expectedSize) {
@@ -30,6 +31,7 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 		}
 
 		tableSize = expectedSize;
+		buckets = (LinkedList<Mapping<K, V>>[]) new LinkedList[tableSize];
 	}
 
 	public void clear() {
@@ -47,11 +49,13 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 
 	public boolean containsKey(K key) {
 		boolean retVal = false;
-		for (LinkedList<Mapping<K, V>> bucket : buckets) {
-			for (Mapping<K, V> mapping : bucket) {
-				if (mapping.getKey().equals(key))
-					retVal = true;
-			}
+		for(int i = 0; i < tableSize; i++) {
+			if(buckets[i] != null) {
+				for (Mapping<K, V> mapping : buckets[i]) {
+					if (mapping.getKey().equals(key))
+						retVal = true;
+				}
+			}			
 		}
 
 		return retVal;
@@ -175,7 +179,8 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 		int bucketIndex = Math.abs(key.hashCode()) % tableSize;
 
 		// If bucket is empty just add new mapping to the first space in bucket
-		if (buckets[bucketIndex].size() == 0) {
+		if (buckets[bucketIndex] == null) {
+			buckets[bucketIndex] = new LinkedList<Mapping<K, V>>();
 			buckets[bucketIndex].addFirst(new Mapping<K, V>(key, value));
 			size++;
 		}
