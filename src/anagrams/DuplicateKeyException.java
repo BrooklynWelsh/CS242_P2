@@ -1,10 +1,10 @@
 package anagrams;
 
-public class DuplicateKeyException extends RuntimeException{
+public class DuplicateKeyException {
 
- DuplicateKeyException(){}
- 
- public DuplicateKeyException(String message) {
-	 System.out.println(message);
- }
+	DuplicateKeyException(){}
+	
+	DuplicateKeyException(String message){
+		System.out.println(message);
+	}
 }
