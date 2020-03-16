@@ -43,6 +43,22 @@ public class AnagramGenerator {
 				if(wordAnagrams != null)	anagrams.add(wordAnagrams);		// Recursively add valid anagrams
 			}
 		
+		//converts the list of anagrams to a list of strings for easy sorting, then converts back
+		ArrayList<String> sortedAnagramStrings = new ArrayList<String>();
+		for(Anagram anagram: anagrams) {
+			sortedAnagramStrings.add(anagram.toString());
+		}
+		//The null comparator uses the default comparitor for the String class
+		sortedAnagramStrings.sort(null);
+		anagrams = new ArrayList<Anagram>();
+		for(String string: sortedAnagramStrings) {
+			Anagram newAnagram = new Anagram();
+			//hopfully adding the whole anagram back as a single string will work
+			newAnagram.addWord(string);
+			anagrams.add(newAnagram);
+		}
+		
+		
 		return anagrams;
 	}
 	
