@@ -41,7 +41,7 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 	}
 
 	public ULHashMap<K, V> clone() throws CloneNotSupportedException {
-		ULHashMap<K,V> newHashMap = null;
+		ULHashMap<K, V> newHashMap = null;
 		newHashMap = (ULHashMap<K, V>) super.clone();
 		newHashMap.buckets = this.buckets.clone();
 		return newHashMap;
@@ -49,13 +49,13 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 
 	public boolean containsKey(K key) {
 		boolean retVal = false;
-		for(int i = 0; i < tableSize; i++) {
-			if(buckets[i] != null) {
+		for (int i = 0; i < tableSize; i++) {
+			if (buckets[i] != null) {
 				for (Mapping<K, V> mapping : buckets[i]) {
 					if (mapping.getKey().equals(key))
 						retVal = true;
 				}
-			}			
+			}
 		}
 
 		return retVal;
@@ -136,23 +136,23 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 				return index < size;
 			}
 
-			public Mapping<K,V> next(){
-				Mapping<K,V> mapping = null;
-				if(buckets[bucket].size() > position) {
+			public Mapping<K, V> next() {
+				Mapping<K, V> mapping = null;
+				if (buckets[bucket] != null && buckets[bucket].size() > position) {
 					mapping = buckets[bucket].get(position);
 					position++;
 					index++;
-				}else if(bucket + 1 < tableSize) {
+				} else if (bucket + 1 < tableSize) {
 					mapping = buckets[bucket].get(0);
 					bucket++;
 					position = 1;
 					index++;
-				}else {
+				} else {
 					throw new java.util.NoSuchElementException();
 				}
 				return mapping;
 			}
-			
+
 			public void remove() {
 				throw new java.lang.UnsupportedOperationException();
 			}
@@ -187,20 +187,22 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 
 		// Else, iterate through bucket to see if K is already there. If so, overwrite
 		else {
-			boolean wasInserted = false;
+			boolean isPresent = false;
+			Mapping<K, V> currentMapping = null;
 			for (Mapping<K, V> mapping : buckets[bucketIndex]) {
 				if (mapping.key.equals(key)) {
-					mapping.key = key;
-					mapping.value = value;
-					wasInserted = true;
-				}
-
-				// If not insert key at end of bucket
-				if (!wasInserted) {
-					buckets[bucketIndex].addLast(new Mapping<K, V>(key, value));
-					size++;
+					isPresent = true;
+					currentMapping = mapping;
 				}
 			}
+
+			if (isPresent) {
+				buckets[bucketIndex].remove(currentMapping);
+				size--;
+			}
+			// If not insert key at end of bucket
+			buckets[bucketIndex].addLast(new Mapping<K, V>(key, value));
+			size++;
 
 			// Now check that we haven't filled our list. If so, find next prime number
 			if (size == tableSize) {
@@ -208,6 +210,8 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 				while (!isPrime(newTableSize))
 					++newTableSize;
 				tableSize = newTableSize;
+				
+				
 			}
 		}
 	}

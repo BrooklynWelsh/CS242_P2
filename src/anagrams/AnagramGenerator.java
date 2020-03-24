@@ -48,12 +48,12 @@ public class AnagramGenerator {
 		for(Anagram anagram: anagrams) {
 			sortedAnagramStrings.add(anagram.toString());
 		}
-		//The null comparator uses the default comparitor for the String class
+		//The null comparator uses the default comparator for the String class
 		sortedAnagramStrings.sort(null);
 		anagrams = new ArrayList<Anagram>();
 		for(String string: sortedAnagramStrings) {
 			Anagram newAnagram = new Anagram();
-			//hopfully adding the whole anagram back as a single string will work
+			//Hopefully adding the whole anagram back as a single string will work
 			newAnagram.addWord(string);
 			anagrams.add(newAnagram);
 		}
