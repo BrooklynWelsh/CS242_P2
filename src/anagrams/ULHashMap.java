@@ -80,8 +80,12 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 		}
 	}
 
+	private int calcHashIndex(K key) {
+		return Math.abs(key.hashCode()) % tableSize;
+	}
+	
 	public void insert(K key, V value) {
-		int bucketIndex = Math.abs(key.hashCode()) % tableSize;
+		int bucketIndex = calcHashIndex(key);
 
 		// If bucket is empty just add new mapping to the first space in bucket
 		if (buckets[bucketIndex].size() == 0) {
@@ -101,12 +105,36 @@ public class ULHashMap<K, V> implements Cloneable, Iterable<ULHashMap.Mapping<K,
 
 			// Now check that we haven't filled our list. If so, find next prime number
 			if (size == tableSize) {
-				int newTableSize = tableSize + 1;
-				while (!isPrime(newTableSize))
-					++newTableSize;
-				tableSize = newTableSize;
+				rehash();
 			}
 		}
+	}
+	
+	private void rehash() {
+		int newTableSize = tableSize + 1;
+		while (!isPrime(newTableSize))
+			++newTableSize;
+		tableSize = newTableSize;
+		
+		LinkedList<Mapping<K, V>> newArray[] = 
+				(LinkedList<Mapping<K, V>>[]) new LinkedList[tableSize];
+		
+		for(LinkedList<Mapping<K, V>> bucket : buckets) {
+			if(bucket != null) {
+				for(Mapping<K, V> mapping : bucket) {
+					int newIndex = calcHashIndex(mapping.key);
+					
+					if(newArray[newIndex] == null) {
+						newArray[newIndex] = new LinkedList<Mapping<K, V>>();
+					}
+					
+					newArray[newIndex].add(mapping);
+					
+				}
+			}
+		}
+		
+		buckets = newArray;
 	}
 
 	public boolean isPrime(int possibleSize) {
